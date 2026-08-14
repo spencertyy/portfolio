@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio — Yuyao Tu
 
-## Getting Started
+Design developer portfolio. Two case studies, a hand-built token system, and no
+framework doing the styling.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Next.js 16 (App Router, Turbopack, React Compiler) · TypeScript · plain CSS.
+
+No Tailwind, no CSS-in-JS, no component library. The token system is one of the
+things this site is meant to demonstrate, so importing someone else's scale
+would have been arguing with the point.
+
+## Structure
+
+```
+src/app/
+├── tokens.css              every colour, size, radius and shadow — one source
+├── globals.css             reset, base typography, a11y baseline, layout
+├── layout.tsx              shell: fixed blue rail + reading surface
+├── components/
+│   ├── Nav.tsx             aria-current drives both the state and its styling
+│   └── RailFooter.tsx      contact marks, inline SVG, 44px targets
+├── page.tsx                hero + work index
+├── ai-chat/page.tsx        case study 01
+├── urban-studio/page.tsx   case study 02
+└── about/page.tsx
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Notes on the type system
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- The scale is **hand-tuned by role**, not generated from a ratio. One ratio has
+  to compromise between dense UI and display type; ten steps chosen separately
+  do not.
+- Display steps are fluid — `clamp(min, A rem + B vw, max)`. The middle term
+  mixes `rem` into `vw` deliberately: a pure `vw` value ignores the reader's
+  browser font-size setting, which fails WCAG 1.4.4.
+- Spacing is a 4pt grid with half steps, named for its pixel value, so
+  `--space-10` is 10px and there is no arithmetic to do while reading a rule.
+- Colours are named by context (`--color-ink` vs `--color-ink-on-brand`) rather
+  than by shade, so a component never needs to know which surface it is on.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Accessibility baseline
 
-## Learn More
+`:focus-visible` rather than `:focus`. Reduced motion collapses transitions to
+`0.01ms` rather than `none` — `none` stops `transitionend` from ever firing and
+silently breaks anything waiting on it. Skip link. Icon-only links carry their
+accessible name in `aria-label` and sit in 44px targets.
 
-To learn more about Next.js, take a look at the following resources:
+## Development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm install
+npm run dev -- -p 3002
+npm run build
+npm run lint
+```
