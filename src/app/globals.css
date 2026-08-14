@@ -378,12 +378,23 @@ a {
   overflow: hidden;
   box-shadow: var(--shadow-md);
   /* The screenshot is 2880px wide; Image handles the responsive sources, this
-     just keeps it from exceeding the reading column on very wide screens. */
+     just keeps it from exceeding the reading column on very wide screens.
+
+     fit-content so the frame hugs whatever is inside it. A 2880px screenshot
+     still fills the 1100px cap, but a 320px game capture gets a 320px frame
+     instead of a full-width border with the clip stranded in one corner. */
+  width: fit-content;
   max-width: 1100px;
 }
 
-.case__figure img {
-  width: 100%;
+/* max-width rather than width: nothing is ever scaled up past the size it was
+   captured at. The case-study screenshots are 2880px wide and get clamped to the
+   figure; a 320px game capture renders at 320px instead of being blown up to the
+   reading column, where it was both enormous and soft. The intrinsic size does
+   the work, and no component has to declare which case it is. */
+.case__figure img,
+.case__figure video {
+  max-width: 100%;
   height: auto;
 }
 
@@ -419,6 +430,14 @@ a {
    The <div> wrapping each dt/dd pair is valid inside a <dl> and is what lets a
    single grid rule size every row, instead of the dt and dd flowing as separate
    grid items that have to be kept in step by hand. */
+/* Straight after a section label the ledger drops its own opening rule. The
+   label already draws one, and two rules 32px apart read as a section that
+   failed to load rather than as a heading over a table. */
+.section__label + .ledger {
+  margin-top: 0;
+  border-top: 0;
+}
+
 .ledger {
   margin-top: var(--space-32);
   border-top: 1px solid var(--color-border);
@@ -490,12 +509,6 @@ a {
   transition: transform 0.35s ease;
 }
 
-/* Clips inside a case figure keep their own proportions rather than being
-   cropped to a tile, the same as the screenshots beside them. */
-.case__figure video {
-  width: 100%;
-  height: auto;
-}
 
 .grid__item:hover .grid__figure {
   border-color: var(--color-brand);
