@@ -22,7 +22,16 @@ const fraunces = Fraunces({
   variable: "--font-fraunces",
 });
 
+const SITE = "https://portfolio-sand-nine-91.vercel.app";
+const DESCRIPTION =
+  "Design developer working across brand, interface and production code.";
+
 export const metadata: Metadata = {
+  // Required before any relative path in `openGraph.images` means anything: a
+  // link preview is fetched by someone else's server, which has no page to
+  // resolve "/og/og-home.png" against. Next uses this to make them absolute.
+  metadataBase: new URL(SITE),
+
   // `template` is filled in by whatever a child page sets as its title, so the
   // suffix is written once here instead of being repeated — and re-typed
   // slightly differently — on every case study.
@@ -30,8 +39,28 @@ export const metadata: Metadata = {
     default: "Yuyao Tu — Design Developer",
     template: "%s — Yuyao Tu",
   },
-  description:
-    "Design developer working across brand, interface and production code.",
+  description: DESCRIPTION,
+
+  // Inherited by every page that does not declare its own, so /about is covered
+  // without repeating the block there.
+  openGraph: {
+    type: "website",
+    siteName: "Yuyao Tu",
+    title: "Yuyao Tu — Design Developer",
+    description: DESCRIPTION,
+    url: SITE,
+    images: [{ url: "/og/og-home.png", width: 1200, height: 630 }],
+  },
+
+  // Twitter/X reads its own tags first and falls back to Open Graph. Declaring
+  // the card type is the part that is not inferable — without it a large image
+  // is rendered as a small thumbnail beside the text.
+  twitter: {
+    card: "summary_large_image",
+    title: "Yuyao Tu — Design Developer",
+    description: DESCRIPTION,
+    images: ["/og/og-home.png"],
+  },
 };
 
 export default function RootLayout({

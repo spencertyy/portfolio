@@ -1,10 +1,22 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 
+const DESCRIPTION =
+  "A streaming chat interface built around a fully tokenised design system — seven models, two providers.";
+
 export const metadata: Metadata = {
   title: "AI Chat",
-  description:
-    "A streaming chat interface built around a fully tokenised design system — seven models, two providers.",
+  description: DESCRIPTION,
+  openGraph: {
+    title: "AI Chat — Yuyao Tu",
+    description: DESCRIPTION,
+    url: "/ai-chat",
+    images: [{ url: "/og/og-ai-chat.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og/og-ai-chat.png"],
+  },
 };
 
 const LINKS = [

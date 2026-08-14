@@ -4,10 +4,24 @@ import Image from "next/image";
 // The root layout supplies the "— Yuyao Tu" suffix. The description is what a
 // link preview shows under the title, so it states what the project is rather
 // than repeating the page's own opening line.
+const DESCRIPTION =
+  "A press-on nail label — brand, Shopify storefront, and the hand-written Liquid underneath it.";
+
 export const metadata: Metadata = {
   title: "Urban Studio",
-  description:
-    "A press-on nail label — brand, Shopify storefront, and the hand-written Liquid underneath it.",
+  description: DESCRIPTION,
+  // Overrides the root block rather than replacing it wholesale: siteName and
+  // type still come from the layout.
+  openGraph: {
+    title: "Urban Studio — Yuyao Tu",
+    description: DESCRIPTION,
+    url: "/urban-studio",
+    images: [{ url: "/og/og-urban-studio.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["/og/og-urban-studio.png"],
+  },
 };
 
 const LINKS = [
