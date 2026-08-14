@@ -1,0 +1,170 @@
+/* ============================================================================
+   Design tokens
+   ----------------------------------------------------------------------------
+   Every colour, size, radius and shadow in this project resolves through a
+   variable defined here. Nothing is hardcoded in component styles.
+
+   The palette is deliberately small: a brand blue, a warm off-white reading
+   surface, and ink. Three colours is the whole budget — the work itself
+   supplies the rest of the colour on the page.
+   ============================================================================ */
+
+:root {
+  /* ==========================================================================
+     Typeface
+     --------------------------------------------------------------------------
+     --font-fraunces is injected onto <html> by next/font at build time. Wrapping
+     it in a role-named token means nothing else in the codebase knows the
+     family's name — changing the face is one line, here.
+
+     Fraunces is variable, so the weights are points on a continuum rather than
+     separate files: 400 for body, 500 for headings.
+
+     It was chosen over Inknut Antiqua for two things the design depends on and
+     Inknut does not have. Its figures are lining, so the numbers that carry
+     structure here — the 00–03 index, the facts band — sit on the cap line and
+     can be set in the body face instead of borrowing a sans for them. And its
+     italic is drawn rather than synthesised, which the case studies use.
+     ========================================================================== */
+  --font-body: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --fw-body: 400;
+  --fw-heading: 500;
+
+  /* ==========================================================================
+     Typography
+     --------------------------------------------------------------------------
+     A hand-tuned ladder, not a fixed mathematical ratio. A single ratio
+     (1.25x, 1.333x) has to compromise between readable body copy and display
+     type with real impact; tuning each step by role avoids that compromise.
+
+     Steps are in rem so the scale responds when a reader raises their browser
+     font size (WCAG 1.4.4 requires text to scale to 200%). The root font size
+     is untouched, so 1rem = 16px.
+     ========================================================================== */
+
+  /* The ladder came down hard once — the display end by the full two-fifths
+     asked for, the UI end barely, because those steps are bounded by physical
+     legibility rather than by presence and body copy under about 14px stops
+     being readable no matter the intent.
+
+     Then it came back up about 13%, because the face changed. Measured at the
+     same font-size, Fraunces has a cap-height 12% shorter than Inknut's and an
+     x-height 22% shorter: font-size sizes the em box, not any shape a reader
+     can see, so two faces at one size are not two texts of one size. The
+     numbers below are the earlier ones scaled to match cap-height — matching
+     x-height instead would have undone the reduction entirely. */
+
+  /* UI steps — fixed. Interface text should stay consistent, not breathe
+     with the viewport. */
+  --fs-2xs: 0.75rem;    /* 12px — the rail's index numbers, footer links */
+  --fs-xs: 0.8125rem;   /* 13px — captions, metadata */
+  --fs-sm: 0.875rem;    /* 14px — secondary text, labels */
+  --fs-base: 1.0625rem; /* 17px — body copy anchor */
+  --fs-md: 1.1875rem;   /* 19px — lead paragraphs */
+
+  /* Display steps — fluid. clamp(min, A rem + B vw, max), where A and B are
+     solved so the value hits min at a 375px viewport and max at 1440px, and
+     interpolates linearly between. Headings then scale continuously instead of
+     jumping at breakpoints.
+
+     The middle term mixes rem into vw on purpose. A pure vw value only tracks
+     viewport width and ignores the reader's browser font-size setting entirely,
+     which fails WCAG 1.4.4. Adding rem makes it respond to both. */
+  --fs-lg: clamp(1.1875rem, 1.144rem + 0.19vw, 1.3125rem);  /* 19px → 21px */
+  --fs-xl: clamp(1.4375rem, 1.327rem + 0.47vw, 1.75rem);    /* 23px → 28px */
+  --fs-2xl: clamp(1.6875rem, 1.445rem + 1.03vw, 2.375rem);  /* 27px → 38px */
+  --fs-3xl: clamp(2rem, 1.56rem + 1.88vw, 3.25rem);         /* 32px → 52px */
+  --fs-4xl: clamp(2.25rem, 1.612rem + 2.72vw, 4.0625rem);   /* 36px → 65px — hero */
+
+  /* Line heights. Display type needs tighter leading than body copy — the same
+     ratio that reads well at 17px looks loose and disconnected at 96px. */
+  /* 1.1 rather than the 1.04 a grotesque could take: Inknut has long descenders
+     and tall ascenders, so at 96px the 'p' of one line was closing on the 'th'
+     of the next. Leading is a property of the face, not of the size alone. */
+  --lh-tight: 1.1;
+  --lh-snug: 1.2;
+  --lh-normal: 1.6;
+
+  /* Letter spacing. Large type needs negative tracking to avoid looking gappy;
+     small label text needs positive tracking to stay legible. */
+  --ls-tight: -0.035em;
+  --ls-normal: 0;
+  /* Two tracking values for capitals, because the amount a cap needs falls as
+     it gets bigger: --ls-wide for label-size caps, --ls-caps for display ones.
+     One value cannot serve both — 0.1em at 24px reads as spaced-out lettering,
+     0.05em at 12px reads as a jam. */
+  --ls-caps: 0.05em;
+  --ls-wide: 0.1em;
+
+  /* ==========================================================================
+     Spacing — 4pt grid with half steps
+     --------------------------------------------------------------------------
+     The grid is not numerical tidiness: when any two components sit next to
+     each other their margins align by construction, so you never get 5px
+     abutting 7px and the sub-pixel misalignment that comes with it.
+
+     Named after their pixel value: --space-10 is 10px. No mental arithmetic.
+     ========================================================================== */
+  --space-2: 0.125rem;
+  --space-4: 0.25rem;
+  --space-6: 0.375rem;   /* half step */
+  --space-8: 0.5rem;
+  --space-10: 0.625rem;  /* half step */
+  --space-12: 0.75rem;
+  --space-16: 1rem;
+  --space-20: 1.25rem;
+  --space-24: 1.5rem;
+  --space-32: 2rem;
+  --space-40: 2.5rem;
+  --space-48: 3rem;
+  --space-64: 4rem;
+  --space-80: 5rem;
+  --space-120: 7.5rem;
+  --space-160: 10rem;
+
+  /* Layout constraints — not spacing, but the same idea: one source of truth. */
+  --measure: 66ch;       /* max line length for readable prose */
+  /* Wide enough for the longest nav label set in capitals, with the index
+     number beside it. It was briefly 320px to fit a spelled-out email address;
+     that constraint went away when the contact links became icons. */
+  --nav-width: 300px;
+
+  /* ==========================================================================
+     Radii
+     ========================================================================== */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+  --radius-full: 999px;
+
+  /* ==========================================================================
+     Colour — three colours, two surfaces
+     --------------------------------------------------------------------------
+     The blue rail and the reading surface are separate contexts with separate
+     ink. Naming them by context (--ink-on-brand vs --ink) rather than by shade
+     means a component never has to know which side of the page it sits on.
+     ========================================================================== */
+
+  /* Brand — the rail, and the single accent everywhere else */
+  --color-brand: #0f049d;
+  --color-brand-bright: #2a1ad4;
+
+  /* Reading surface — warm off-white rather than pure white. Pure #fff at this
+     size is glaring next to a saturated blue; a touch of warmth settles it. */
+  --color-bg: #faf8f4;
+  --color-surface: #ffffff;
+  --color-border: #e6e2da;
+
+  /* Ink on the reading surface */
+  --color-ink: #16161a;
+  --color-ink-muted: #5b5b66;
+
+  /* Ink on the blue rail — measured, not guessed:
+     #ffffff on #0f049d = 15.6:1, white-70% = 8.4:1. Both clear AA comfortably. */
+  --color-ink-on-brand: #ffffff;
+  --color-ink-on-brand-muted: rgba(255, 255, 255, 0.68);
+
+  --shadow-sm: 0 1px 2px rgba(22, 22, 26, 0.06);
+  --shadow-md: 0 4px 16px rgba(22, 22, 26, 0.08);
+  --shadow-focus: 0 0 0 3px rgba(42, 26, 212, 0.35);
+}

@@ -1,40 +1,86 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import "./tokens.css";
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ============================================================================
+   Reset — minimal. Only the defaults that get in the way of a design system.
+   ============================================================================ */
 
-html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 * {
-  box-sizing: border-box;
-  padding: 0;
   margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%; /* stop iOS Safari inflating text in landscape */
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4 {
+  overflow-wrap: break-word; /* long URLs must not blow out the layout */
+}
+
+/* ============================================================================
+   Base typography
+   ============================================================================ */
+
+body {
+  min-height: 100dvh;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  font-family: var(--font-body);
+  font-weight: var(--fw-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: var(--fw-heading);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  text-wrap: balance; /* avoids a single orphaned word on the last line */
+}
+
+h1 {
+  font-size: var(--fs-3xl);
+  line-height: var(--lh-tight);
+}
+h2 {
+  font-size: var(--fs-xl);
+}
+h3 {
+  font-size: var(--fs-lg);
+}
+
+p {
+  text-wrap: pretty; /* prevents orphans without `balance`'s aggressive rebalancing */
 }
 
 a {
@@ -42,8 +88,520 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+/* ============================================================================
+   Accessibility baseline — declared once, inherited by everything written later
+   ============================================================================ */
+
+/* Rings appear for keyboard navigation and stay out of the way on mouse click.
+   :focus alone would show the ring on every click. */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* 0.01ms rather than `none`: `none` stops transitionend/animationend from ever
+   firing, silently breaking any logic that waits on them. Visually identical. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Keyboard users land here first and can jump past the rail. */
+.skip-link {
+  position: absolute;
+  left: var(--space-16);
+  top: var(--space-16);
+  z-index: 10;
+  padding: var(--space-10) var(--space-16);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border-radius: var(--radius-md);
+  transform: translateY(-200%);
+  transition: transform 0.18s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* ============================================================================
+   Shell — the blue rail and the reading surface
+   ----------------------------------------------------------------------------
+   Grid rather than flex: the rail is a fixed track and the content takes the
+   rest, which is exactly what grid-template-columns states literally.
+   ============================================================================ */
+
+.shell {
+  display: grid;
+  grid-template-columns: var(--nav-width) 1fr;
+  min-height: 100dvh;
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-48);
+  padding: var(--space-48) var(--space-32);
+  background: var(--color-brand);
+  color: var(--color-ink-on-brand);
+  /* Sticky, not fixed: it stays put while content scrolls, but still
+     participates in the grid so it can't overlap anything.
+
+     align-self: start is required, not cosmetic — grid items stretch to the
+     row height by default, and a stretched element is already as tall as its
+     container, so there is no travel left for sticky to work with. Without
+     this the rail silently scrolls away. */
+  align-self: start;
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+
+  /* The rail is set in caps as a block. Done with text-transform rather than by
+     typing capitals into the markup, so the DOM keeps the real casing: screen
+     readers announce "Yuyao Tu" instead of spelling out an acronym, and the
+     email address stays copy-pasteable as written.
+
+     Caps need positive tracking to stay legible — the letterforms lose the
+     ascender and descender cues that separate lowercase words. */
+  text-transform: uppercase;
+  letter-spacing: var(--ls-wide);
+}
+
+.rail__brand {
+  display: block;
+}
+
+.rail__brand:hover .rail__role {
+  color: var(--color-ink-on-brand);
+}
+
+.rail__name {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-heading);
+  /* Less tracking than the small labels above: the wider a cap is set, the less
+     extra space it needs, and 0.1em at this size would read as two words. */
+  letter-spacing: var(--ls-caps);
+}
+
+/* The one exception to the rail's capitals. Set in caps this reads as another
+   label in the system; in sentence case it reads as a place, which is what it
+   is. The tracking goes back to normal with it — the extra space that keeps
+   capitals apart only opens gaps between lowercase letters. */
+.rail__role {
+  font-size: var(--fs-xs);
+  text-transform: none;
+  letter-spacing: var(--ls-normal);
+  color: var(--color-ink-on-brand-muted);
+  margin-top: var(--space-2);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav__link {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-12);
+  padding: var(--space-12) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--color-ink-on-brand-muted);
+  transition: color 0.18s ease;
+}
+
+.nav__link:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.nav__link:hover,
+.nav__link[aria-current="page"] {
+  color: var(--color-ink-on-brand);
+}
+
+/* The index number is the visual order marker — it does the job a bullet or an
+   icon would, without importing anything. */
+.nav__index {
+  font-size: var(--fs-2xs);
+  /* tabular so 00–03 occupy identical widths and the titles beside them start
+     on one line. Fraunces' figures are lining already, so nothing has to be
+     asked for beyond that. */
+  font-variant-numeric: tabular-nums;
+  opacity: 0.6;
+}
+
+.nav__title {
+  font-size: var(--fs-xs);
+}
+
+.rail__footer {
+  margin-top: auto;
+  display: flex;
+  gap: var(--space-4);
+  /* Cancels the first icon's own padding, so the row's optical left edge lines
+     up with the nav above it rather than with its padding box. */
+  margin-left: calc(var(--space-12) * -1);
+}
+
+.rail__footer a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* 20px mark inside 44px of hit area — WCAG 2.5.5's target size. An icon-only
+     link has no text to widen the target, so the padding has to do it. */
+  padding: var(--space-12);
+  color: var(--color-ink-on-brand);
+  transition: transform 0.18s ease;
+}
+
+/* Colour can't carry the hover state here: the marks are already at full white,
+   which is where the nav links go on hover. So the feedback is a lift — and a
+   transform, which stays off the layout and paint path. */
+.rail__footer a:hover {
+  transform: translateY(-2px);
+}
+
+.rail__footer svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+/* ============================================================================
+   Content surface
+   ============================================================================ */
+
+.content {
+  padding: var(--space-80) var(--space-48);
+  background: var(--color-bg);
+}
+
+@media (min-width: 1100px) {
+  .content {
+    padding: var(--space-120) var(--space-80);
+  }
+}
+
+/* Constrains prose to a readable line length. Past roughly 70 characters the
+   eye struggles to find the start of the next line. */
+.prose {
+  max-width: var(--measure);
+}
+
+.hero {
+  font-size: var(--fs-4xl);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  font-weight: var(--fw-heading);
+  max-width: 16ch; /* forces the line breaks that give the block its shape */
+}
+
+.lede {
+  margin-top: var(--space-32);
+  font-size: var(--fs-md);
+  color: var(--color-ink-muted);
+  max-width: var(--measure);
+}
+
+/* Inner pages get a smaller opening than the home page's hero. Reusing the
+   hero size everywhere would flatten the hierarchy between "the site's
+   statement" and "this page's heading". */
+.page-title {
+  font-size: var(--fs-2xl);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+  font-weight: var(--fw-heading);
+  margin-bottom: var(--space-40);
+}
+
+/* Vertical rhythm for prose. Margins live on the container rather than on
+   every <p>, so the spacing can't drift as paragraphs get added. */
+.stack > * + * {
+  margin-top: var(--space-24);
+}
+
+/* ============================================================================
+   Case study pages
+   ============================================================================ */
+
+.case__eyebrow {
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  margin-bottom: var(--space-20);
+}
+
+.case__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-24);
+  margin-top: var(--space-32);
+  font-size: var(--fs-sm);
+}
+
+.case__links a {
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  transition:
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+.case__links a:hover {
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+}
+
+.case__figure {
+  margin-top: var(--space-64);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  /* The screenshot is 2880px wide; Image handles the responsive sources, this
+     just keeps it from exceeding the reading column on very wide screens. */
+  max-width: 1100px;
+}
+
+.case__figure img {
+  width: 100%;
+  height: auto;
+}
+
+/* Numbers get their own band. Three facts is the limit — past that they stop
+   reading as highlights and start reading as a table. */
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-64);
+  margin-top: var(--space-64);
+  padding-top: var(--space-32);
+  border-top: 1px solid var(--color-border);
+}
+
+.facts__value {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-heading);
+  letter-spacing: var(--ls-tight);
+}
+
+.facts__label {
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  margin-top: var(--space-4);
+}
+
+/* Attribution ledger — a <dl>, because these rows are term → description pairs
+   and that is precisely what a description list encodes. A <table> would claim
+   the rows relate to one another column-wise, which they don't.
+
+   The <div> wrapping each dt/dd pair is valid inside a <dl> and is what lets a
+   single grid rule size every row, instead of the dt and dd flowing as separate
+   grid items that have to be kept in step by hand. */
+.ledger {
+  margin-top: var(--space-32);
+  border-top: 1px solid var(--color-border);
+  /* Wider than --measure: the term column sits outside the reading line, so
+     the description still lands around 60 characters. */
+  max-width: 46rem;
+}
+
+.ledger__row {
+  display: grid;
+  grid-template-columns: 13rem 1fr;
+  gap: var(--space-32);
+  padding: var(--space-24) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ledger__term {
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  /* Body leading rather than the label's own, so the term's first line sits on
+     the same baseline as the description beside it. */
+  line-height: var(--lh-normal);
+}
+
+.ledger__desc {
+  font-size: var(--fs-sm);
+}
+
+/* Inline code inside prose — monospace at 0.9em so it sits on the same
+   baseline rhythm as the surrounding text rather than jumping. */
+code {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+  padding: 0.1em 0.35em;
+  background: rgba(15, 4, 157, 0.06);
+  border-radius: var(--radius-sm);
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+}
+
+.links__item {
+  padding: var(--space-20) 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: var(--fs-sm);
+  color: var(--color-ink-muted);
+  transition:
+    color 0.18s ease,
+    padding-left 0.25s ease;
+}
+
+.links__item:hover {
+  color: var(--color-ink);
+  padding-left: var(--space-8);
+}
+
+/* 80 rather than 120: at 120 the first work row landed 47px above the fold on
+   a 720px viewport, so it read as cut off rather than as "there is more below".
+   Pulling it up lets one full row show, which is what invites the scroll. */
+.section {
+  margin-top: var(--space-80);
+}
+
+.section__label {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+  padding-bottom: var(--space-16);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Work list — rules and numbers carry the structure, no cards or shadows. */
+.work {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Four tracks: index, title, then a flexible gap that pushes the meta out to
+   sit beside the arrow. Title left, description right — the shape of an index
+   or a table of contents, which is what this list is. */
+.work__item {
+  display: grid;
+  grid-template-columns: 3rem auto 1fr auto;
+  align-items: baseline;
+  gap: var(--space-16);
+  padding: var(--space-32) 0;
+  border-bottom: 1px solid var(--color-border);
+  transition: padding-left 0.25s ease;
+}
+
+.work__item:hover {
+  padding-left: var(--space-12);
+}
+
+.work__index {
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink-muted);
+}
+
+.work__title {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-heading);
+  letter-spacing: var(--ls-tight);
+}
+
+.work__meta {
+  font-size: var(--fs-xs);
+  color: var(--color-ink-muted);
+  text-align: right;
+}
+
+.work__arrow {
+  font-size: var(--fs-sm);
+  color: var(--color-ink-muted);
+  transition: transform 0.25s ease;
+}
+
+.work__item:hover .work__arrow {
+  transform: translateX(4px);
+}
+
+/* ============================================================================
+   Narrow screens — the rail stops being a rail
+   ----------------------------------------------------------------------------
+   Below this width a 300px column would leave too little room for content, so
+   the grid collapses to a single column and the rail becomes a header.
+   ============================================================================ */
+
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .rail {
+    position: static;
+    height: auto;
+    gap: var(--space-32);
+    padding: var(--space-32) var(--space-24);
+  }
+
+  .rail__footer {
+    margin-top: var(--space-16);
+  }
+
+  .content {
+    padding: var(--space-48) var(--space-24);
+  }
+
+  /* A 13rem label column leaves too little for the description on a phone, so
+     the term stacks above it as a heading would. */
+  .ledger__row {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  /* Four tracks in a row would crush the meta text on a phone, so it drops to
+     a second line under the title and goes back to left alignment. */
+  .work__item {
+    grid-template-columns: 2rem 1fr auto;
+    grid-template-areas:
+      "index title arrow"
+      ".     meta  .";
+    gap: var(--space-4) var(--space-12);
+    padding: var(--space-24) 0;
+  }
+
+  .work__index {
+    grid-area: index;
+  }
+  .work__title {
+    grid-area: title;
+  }
+  .work__meta {
+    grid-area: meta;
+    text-align: left;
+  }
+  .work__arrow {
+    grid-area: arrow;
   }
 }
