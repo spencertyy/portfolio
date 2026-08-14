@@ -13,10 +13,10 @@ export type Project = {
   title: string;
   /** Course or context, e.g. "CS 6015 · University of Utah". */
   context: string;
-  /** Optional on purpose. Seven of these repositories were published later than
-   *  the work was done, so their creation dates prove nothing — and a wrong
-   *  year on a portfolio is the kind of thing a reader checks against a résumé.
-   *  Left off until confirmed rather than guessed. */
+  /** Optional, and worth keeping optional: seven of these repositories were
+   *  published well after the work was done, so their commit dates prove
+   *  nothing. These read "2023–2024" — the span of the degree — rather than a
+   *  specific year invented from a git log. */
   year?: string;
   /** One clause, shown under the title in the grid. */
   summary: string;
@@ -32,6 +32,10 @@ export type Project = {
     height: number;
     alt: string;
   };
+  /** An mp4 beside the still. When present the tile plays it and `image` becomes
+   *  the poster frame — see components/Motion.tsx for why these are videos and
+   *  not the GIFs the repositories ship. */
+  video?: string;
 };
 
 export const PROJECTS: Project[] = [
@@ -50,15 +54,18 @@ export const PROJECTS: Project[] = [
     ],
     github:
       "https://github.com/spencertyy/Dijkstra-s-Algorithm-Visualization",
+    live: "https://spencertyy.github.io/Dijkstra-s-Algorithm-Visualization/",
     image: {
-      src: "/coursework/dijkstra.gif",
+      src: "/coursework/dijkstra.jpg",
       width: 800,
       height: 450,
       alt: "Graph visualisation mid-run: nodes and weighted edges, with the current node and relaxing edge highlighted",
     },
+    video: "/coursework/dijkstra.mp4",
   },
   {
     slug: "websocket-chat-server",
+    year: "2023–2024",
     title: "WebSocket Chat Server",
     context: "University of Utah",
     summary:
@@ -79,6 +86,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "synthesizer",
+    year: "2023–2024",
     title: "Node-Based Audio Synthesizer",
     context: "University of Utah",
     summary:
@@ -99,6 +107,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "tls-handshake",
+    year: "2023–2024",
     title: "TLS Handshake, From Scratch",
     context: "University of Utah",
     summary:
@@ -119,6 +128,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "dns-resolver",
+    year: "2023–2024",
     title: "DNS Resolver",
     context: "University of Utah",
     summary:
@@ -131,14 +141,16 @@ export const PROJECTS: Project[] = [
     ],
     github: "https://github.com/spencertyy/DNS-resolver",
     image: {
-      src: "/coursework/dns.gif",
+      src: "/coursework/dns.jpg",
       width: 790,
       height: 560,
       alt: "Terminal showing dig queries resolved by the server, with cache hits and misses",
     },
+    video: "/coursework/dns.mp4",
   },
   {
     slug: "not-the-crab",
+    year: "2023–2024",
     title: "Not The Crab",
     context: "University of Utah",
     summary:
@@ -150,6 +162,7 @@ export const PROJECTS: Project[] = [
       "Rendering each crab uses the save / translate / draw / restore pattern: the canvas origin moves to the sprite's centre, the sprite is drawn around that origin, and the transform is popped before the next one. Without the restore, every transform composes onto the last and the scene drifts a little further off-screen each frame.",
     ],
     github: "https://github.com/spencertyy/NotTheCrab",
+    live: "https://spencertyy.github.io/NotTheCrab/NotTheCrab/NotTheBees.html",
     image: {
       src: "/coursework/crab.png",
       width: 840,
@@ -159,6 +172,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "pacman",
+    year: "2023–2024",
     title: "Pacman",
     context: "University of Utah",
     summary:
@@ -171,14 +185,16 @@ export const PROJECTS: Project[] = [
     ],
     github: "https://github.com/spencertyy/PacMan",
     image: {
-      src: "/coursework/pacman.png",
+      src: "/coursework/pacman.jpg",
       width: 320,
       height: 344,
       alt: "Pacman gameplay: tile maze with pellets, the player sprite, and a ghost",
     },
+    video: "/coursework/pacman.mp4",
   },
   {
     slug: "unix-shell",
+    year: "2023–2024",
     title: "Unix Shell",
     context: "University of Utah",
     summary:
@@ -191,11 +207,12 @@ export const PROJECTS: Project[] = [
     ],
     github: "https://github.com/spencertyy/Unix-shell",
     image: {
-      src: "/coursework/shell.gif",
+      src: "/coursework/shell.jpg",
       width: 790,
       height: 560,
       alt: "Terminal session showing the shell running commands with pipes and redirection",
     },
+    video: "/coursework/shell.mp4",
   },
   {
     slug: "rain-catcher",
@@ -213,11 +230,12 @@ export const PROJECTS: Project[] = [
     ],
     github: "https://github.com/spencertyy/QtGameGroupProject",
     image: {
-      src: "/coursework/rain-catcher.png",
+      src: "/coursework/rain-catcher.jpg",
       width: 913,
       height: 542,
       alt: "Rain Catcher gameplay: a bucket catching falling droplets, with score and timer",
     },
+    video: "/coursework/rain-catcher.mp4",
   },
 ];
 

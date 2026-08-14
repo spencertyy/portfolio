@@ -18,6 +18,12 @@ const WORK = [
     // stale is worse than one that was never precise.
     meta: "Brand · Shopify storefront · 2023",
   },
+  {
+    href: "/coursework",
+    index: "03",
+    title: "Coursework",
+    meta: "Nine academic projects · 2023–2024",
+  },
 ];
 
 export default function HomePage() {

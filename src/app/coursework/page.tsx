@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import Motion from "../components/Motion";
 import { PROJECTS } from "./projects";
 
 export const metadata: Metadata = {
@@ -37,7 +38,15 @@ export default function CourseworkPage() {
                 className="grid__item"
               >
                 <div className="grid__figure">
-                  {project.image ? (
+                  {project.video && project.image ? (
+                    <Motion
+                      src={project.video}
+                      poster={project.image.src}
+                      width={project.image.width}
+                      height={project.image.height}
+                      label={project.image.alt}
+                    />
+                  ) : project.image ? (
                     <Image
                       src={project.image.src}
                       alt={project.image.alt}

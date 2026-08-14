@@ -482,11 +482,19 @@ a {
   transition: border-color 0.18s ease;
 }
 
-.grid__figure img {
+.grid__figure img,
+.grid__figure video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.35s ease;
+}
+
+/* Clips inside a case figure keep their own proportions rather than being
+   cropped to a tile, the same as the screenshots beside them. */
+.case__figure video {
+  width: 100%;
+  height: auto;
 }
 
 .grid__item:hover .grid__figure {

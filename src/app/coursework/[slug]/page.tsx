@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Motion from "../../components/Motion";
 import { PROJECTS, getProject } from "../projects";
 
 // Tells Next which slugs exist so every project page is prerendered to static
@@ -77,13 +78,23 @@ export default async function ProjectPage({ params }: Props) {
 
       {project.image && (
         <div className="case__figure">
-          <Image
-            src={project.image.src}
-            alt={project.image.alt}
-            width={project.image.width}
-            height={project.image.height}
-            priority
-          />
+          {project.video ? (
+            <Motion
+              src={project.video}
+              poster={project.image.src}
+              width={project.image.width}
+              height={project.image.height}
+              label={project.image.alt}
+            />
+          ) : (
+            <Image
+              src={project.image.src}
+              alt={project.image.alt}
+              width={project.image.width}
+              height={project.image.height}
+              priority
+            />
+          )}
         </div>
       )}
 
