@@ -13,7 +13,8 @@ const LINKS = [
   { href: "/", index: "00", title: "Home" },
   { href: "/ai-chat", index: "01", title: "AI Chat" },
   { href: "/urban-studio", index: "02", title: "Urban Studio" },
-  { href: "/about", index: "03", title: "About" },
+  { href: "/coursework", index: "03", title: "Coursework" },
+  { href: "/about", index: "04", title: "About" },
 ];
 
 export default function Nav() {

@@ -13,7 +13,10 @@ const WORK = [
     href: "/urban-studio",
     index: "02",
     title: "Urban Studio",
-    meta: "Brand · Shopify storefront · 2023–2026",
+    // Start year only. An end year on a project that is still running would
+    // need editing every January to stay true, and a date that quietly goes
+    // stale is worse than one that was never precise.
+    meta: "Brand · Shopify storefront · 2023",
   },
 ];
 
