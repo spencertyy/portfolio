@@ -42,3 +42,6 @@ next-env.d.ts
 
 # local dev notes, not part of the project
 CLAUDE.md
+
+# playwright/browser tooling artefacts
+.playwright-mcp/
