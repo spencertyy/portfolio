@@ -13,26 +13,32 @@ export default function AboutPage() {
 
       <div className="prose stack">
         <p>
-          I design interfaces and then build them. In practice that means the
-          same person decides the type scale and writes the CSS that ships it —
-          which is usually why the details survive the trip to production.
+          I design interfaces, then build them. To me these aren&rsquo;t two
+          jobs: the person choosing the type sizes, spacing and hierarchy is the
+          same one writing the code that ships — so the small decisions in a
+          design don&rsquo;t get lost on the way into code.
         </p>
 
         <p>
-          Two things I&rsquo;ve made recently. An AI chat app, built around a
-          fully tokenised design system with the accessibility work done
-          properly rather than as a checklist — every colour, size and spacing
-          value resolves through a variable, and the contrast was measured
-          against composited backgrounds rather than declared ones. And Urban
-          Studio, a press-on nail label where I set the brand and customised the
-          storefront down to its Liquid templates. One is a product surface, the
-          other is a shopfront. The work turns out to be the same work.
+          I came up through software development. What actually stopped me was
+          noticing how much I&rsquo;d fuss over whether a page looked good
+          enough, felt considered enough — the kind of thing most people never
+          register, but where being slightly off just reads as wrong to me, and
+          I can&rsquo;t leave it alone. Engineering is my foundation; it&rsquo;s
+          what lets the things I want to make actually get built.
         </p>
 
         <p>
-          I hold a Master of Software Development from the University of Utah,
-          in Salt Lake City, finished at the end of 2024. I&rsquo;m now based in
-          New York.
+          Two recent things: AI Chat, a chat app built on a design system of my
+          own; and Urban Studio, a press-on nail label where I set everything
+          from the brand to the storefront&rsquo;s templates. One is a product
+          surface, the other a shopfront — and they turned out to be the same
+          work. The detail is in the case studies, not in this paragraph.
+        </p>
+
+        <p>
+          Master of Software Development from the University of Utah, finished at
+          the end of 2024. Based in New York.
         </p>
 
         {/* The rail's icons are the fast path from anywhere on the site; this is
