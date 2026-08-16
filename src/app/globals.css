@@ -201,10 +201,10 @@ a {
   letter-spacing: var(--ls-caps);
 }
 
-/* The one exception to the rail's capitals. Set in caps this reads as another
-   label in the system; in sentence case it reads as a place, which is what it
-   is. The tracking goes back to normal with it — the extra space that keeps
-   capitals apart only opens gaps between lowercase letters. */
+/* The one exception to the rail's capitals. Set in caps it would read as another
+   label in the system; in sentence case it reads as a phrase — a plain statement
+   of what the work is. The tracking goes back to normal with it, since the extra
+   space that keeps capitals legible only opens gaps between lowercase letters. */
 .rail__role {
   font-size: var(--fs-xs);
   text-transform: none;
@@ -336,6 +336,18 @@ a {
    every <p>, so the spacing can't drift as paragraphs get added. */
 .stack > * + * {
   margin-top: var(--space-24);
+}
+
+/* A quiet sign-off at the foot of the About page. Pulled well clear of the prose
+   above it so it reads as a footer line, not another paragraph, and set as a
+   small caps label to match the metadata elsewhere in the system. Left-aligned
+   with the reading column; add text-align:right to move it to the far corner. */
+.about__location {
+  margin-top: var(--space-80);
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
 }
 
 /* ============================================================================

@@ -38,7 +38,7 @@ export default function AboutPage() {
 
         <p>
           Master of Software Development from the University of Utah, finished at
-          the end of 2024. Based in New York.
+          the end of 2024.
         </p>
 
         {/* The rail's icons are the fast path from anywhere on the site; this is
@@ -52,6 +52,12 @@ export default function AboutPage() {
           .
         </p>
       </div>
+
+      {/* Pulled out of the prose and set at the foot of the page as a sign-off,
+          so it reads as a location line rather than as a clause on the degree —
+          "University of Utah ... based in New York" made Utah sound like it was
+          in New York. */}
+      <p className="about__location">Based in New York</p>
     </>
   );
 }

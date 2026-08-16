@@ -83,9 +83,11 @@ export default function RootLayout({
                 visitor already knows, so it costs no extra nav item. */}
             <Link href="/" className="rail__brand">
               <div className="rail__name">Yuyao Tu</div>
-              {/* Location rather than a title: the hero line already states
-                  what the work is, so a job title here would only repeat it. */}
-              <div className="rail__role">New York</div>
+              {/* What the work is, not a job title. Two words set side by side
+                  rather than a claimed role — it reads on every page without
+                  overstating a title the experience hasn't earned yet. The
+                  location moved to the foot of the About page. */}
+              <div className="rail__role">Design and code</div>
             </Link>
 
             <Nav />
