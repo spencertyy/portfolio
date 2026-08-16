@@ -87,7 +87,7 @@ export default function RootLayout({
                   rather than a claimed role — it reads on every page without
                   overstating a title the experience hasn't earned yet. The
                   location moved to the foot of the About page. */}
-              <div className="rail__role">Design and code</div>
+              <div className="rail__role">Design and Code</div>
             </Link>
 
             <Nav />
