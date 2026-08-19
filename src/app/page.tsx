@@ -6,8 +6,11 @@ const WORK = [
   {
     href: "/ai-chat",
     index: "01",
-    title: "AI Chat",
-    meta: "Design system · Streaming UI · 2026",
+    title: "AI Reply Strategist",
+    // The brand name leads the meta line so the index name and the case
+    // study's own h1 ("Unsent") introduce each other, rather than the visitor
+    // meeting an unexplained product name for the first time on click-through.
+    meta: "Unsent · AI personas · 2026",
   },
   {
     href: "/urban-studio",
@@ -37,8 +40,8 @@ export default function HomePage() {
 
       <p className="lede">
         Design developer. I work across brand, interface and production code —
-        most recently a design system for an AI chat product, and the brand and
-        storefront for a DTC nail label.
+        most recently an AI reply strategist built on a design system of my
+        own, and the brand and storefront for a DTC nail label.
       </p>
 
       <section className="section">

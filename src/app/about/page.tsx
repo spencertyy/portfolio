@@ -29,8 +29,9 @@ export default function AboutPage() {
         </p>
 
         <p>
-          Two recent things: AI Chat, a chat app built on a design system of my
-          own; and Urban Studio, a press-on nail label where I set everything
+          Two recent things: Unsent, an AI reply strategist built on a design
+          system of my own; and Urban Studio, a press-on nail label where I set
+          everything
           from the brand to the storefront&rsquo;s templates. One is a product
           surface, the other a shopfront — and they turned out to be the same
           work. The detail is in the case studies, not in this paragraph.

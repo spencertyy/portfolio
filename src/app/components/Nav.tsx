@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 // keeps the sequence intact instead of breaking the index with an odd item.
 const LINKS = [
   { href: "/", index: "00", title: "Home" },
-  { href: "/ai-chat", index: "01", title: "AI Chat" },
+  { href: "/ai-chat", index: "01", title: "AI Reply Strategist" },
   { href: "/urban-studio", index: "02", title: "Urban Studio" },
   { href: "/coursework", index: "03", title: "Coursework" },
   { href: "/about", index: "04", title: "About" },
